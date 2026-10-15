@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speech Ocean · Work Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F5F8; --card:#FFFFFF; --ink:#0F1E2E; --muted:#5D6B7B; --line:#E2E8EF; --field:#FBFCFD;
+  --brand:#0B5E8E; --brand-2:#0B3D5C; --brand-soft:#E6F1F8;
+  --ok:#1E7A4C; --ok-soft:#DDF3E6; --warn:#9A6300; --warn-soft:#FFF1D1;
+  --bad:#B3261E; --bad-soft:#FBE2E0; --info:#1F5FBF; --info-soft:#DCEBFF;
+  --violet:#6B3FA0; --violet-soft:#F1E9FB; --gray-soft:#ECEFF3;
+  --r:16px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.top{background:linear-gradient(135deg,var(--brand-2) 0%,var(--brand) 100%);color:#fff;padding:22px 16px 70px;position:relative;overflow:hidden}
+.top svg.waves{position:absolute;left:0;right:0;bottom:0;width:100%;height:60px;opacity:.12}
+.top-in{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px;position:relative}
+.logo{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.15);display:grid;place-items:center;flex:none}
+.brand b{display:block;font-size:17px;letter-spacing:-.01em}
+.brand span{font-size:13px;opacity:.82}
+.demo{margin-left:auto;font-size:11px;font-weight:600;background:rgba(255,255,255,.18);padding:3px 9px;border-radius:99px}
+main{max-width:560px;margin:-48px auto 24px;padding:0 16px;display:grid;gap:14px;position:relative}
+.stack{display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:0 1px 2px rgba(15,30,46,.04),0 10px 30px rgba(15,30,46,.06)}
+h2{font-size:17px;margin:0 0 4px;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:13.5px;margin:0 0 6px}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+label .opt{font-weight:400;color:var(--muted)}
+input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;color:var(--ink);background:var(--field)}
+input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft);background:#fff}
+input[type=number]{font-variant-numeric:tabular-nums}
+.pw{position:relative}
+.pw input{padding-right:64px}
+.pw button{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--brand);font:600 12.5px Inter,sans-serif;cursor:pointer;padding:6px}
+.btn{appearance:none;border:0;width:100%;margin-top:18px;padding:13px 16px;border-radius:10px;background:var(--brand);color:#fff;font:600 15px Inter,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
+.btn:hover{background:var(--brand-2)}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn.green{background:var(--ok)} .btn.green:hover{background:#17623C}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)} .btn.ghost:hover{background:var(--bg)}
+.btn.slate{background:#4A5868} .btn.slate:hover{background:#38444F}
+.link{background:none;border:0;color:var(--muted);font:500 13px Inter,sans-serif;cursor:pointer;padding:4px 0}
+.link:hover{color:var(--ink)}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.divider{height:1px;background:var(--line);margin:18px 0 4px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+/* profile */
+.profile{display:flex;align-items:center;gap:14px}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-weight:700;font-size:18px;flex:none}
+.profile h2{font-size:18px;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{display:inline-block;font-size:12px;font-weight:600;color:var(--brand);background:var(--brand-soft);padding:2px 9px;border-radius:99px}
+.chip.role{color:var(--violet);background:var(--violet-soft)}
+.profile .link{margin-left:auto;align-self:flex-start}
+
+/* progress */
+.big{display:flex;align-items:baseline;gap:6px;margin:6px 0 12px}
+.big b{font-size:36px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.big span{color:var(--muted);font-size:14px}
+.bar{height:10px;background:#EAEFF4;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--brand);border-radius:99px;transition:width .6s ease}
+.bar.done i{background:var(--ok)}
+.msg{font-size:13.5px;margin:10px 0 0;color:var(--muted)}
+.msg.done{color:var(--ok);font-weight:600}
+.stats{display:grid;grid-template-columns:.7fr 1.15fr 1.15fr;gap:8px;margin-top:16px}
+.stat{background:var(--bg);border-radius:10px;padding:10px 12px;min-width:0}
+.stat small{display:block;font-size:11.5px;color:var(--muted)}
+.stat b{display:block;font-size:15px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat em{font-style:normal;font-size:11px;color:var(--muted)}
+.pending-note{margin-top:12px;font-size:12.5px;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:8px 12px}
+
+/* segmented */
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border-radius:10px;padding:4px;gap:4px;margin-top:14px}
+.seg button{border:0;background:none;border-radius:8px;padding:9px 10px;font:600 13.5px Inter,sans-serif;color:var(--muted);cursor:pointer}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(15,30,46,.12)}
+.seg button.on[data-type=Rework]{color:var(--violet)}
+.reworknote{font-size:12.5px;color:var(--violet);margin-top:8px}
+
+/* form card */
+.live{border-color:#BFD9F5;background:linear-gradient(180deg,#F4F9FF 0%,#FFFFFF 40%)}
+.live.edit{border-color:#F0D9A8;background:linear-gradient(180deg,#FFFBF1 0%,#FFFFFF 40%)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--info);display:inline-block;margin-right:7px;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.timer{font-weight:700;font-size:32px;line-height:1;font-variant-numeric:tabular-nums;margin:14px 0 4px;letter-spacing:-.02em}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.group{border:1px solid var(--line);border-radius:12px;padding:2px 14px 14px;margin-top:14px}
+.group.valid{border-color:#BFE5CF;background:#F7FCF9}
+.group.invalid{border-color:#F3CFCB;background:#FFF9F8}
+.group h3{font-size:13px;margin:12px 0 0;display:flex;align-items:center;gap:7px}
+.group h3 i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.hint{font-size:12px;color:var(--muted);margin-top:5px;min-height:16px;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:12px 14px;background:var(--bg);border-radius:10px;font-size:14px}
+.total b{font-variant-numeric:tabular-nums}
+.btnrow{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.btnrow .btn{margin-top:18px}
+
+/* no data */
+.nodata{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+.nodata .btn{margin-top:0}
+.nodata-info{display:flex;gap:10px;align-items:flex-start;background:var(--gray-soft);border-radius:10px;padding:12px 14px;font-size:13.5px;color:#3A4756;margin-top:16px}
+
+/* list */
+.list{list-style:none;margin:8px 0 0;padding:0}
+.list li{padding:14px 0;border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.lt{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.lt b{font-size:14.5px}
+.lt span.meta{display:block;font-size:12.5px;color:var(--muted)}
+.lm{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.lm div{font-size:12px;color:var(--muted)}
+.lm div b{display:block;font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.pill.prog{background:var(--info-soft);color:var(--info)}
+.pill.pend{background:var(--warn-soft);color:var(--warn)}
+.pill.ver{background:var(--ok-soft);color:var(--ok)}
+.pill.nod{background:var(--gray-soft);color:var(--muted)}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--violet);background:var(--violet-soft);padding:1px 7px;border-radius:5px;margin-left:6px;vertical-align:2px}
+.acts{display:flex;gap:8px;margin-top:12px}
+.acts button{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 10px;font:600 13px Inter,sans-serif;cursor:pointer;color:var(--ink)}
+.acts button:hover{background:var(--bg)}
+.acts button.del{color:var(--bad)}
+.acts button.del:hover{background:var(--bad-soft);border-color:#F3CFCB}
+.locked{margin-top:10px;font-size:12px;color:var(--ok)}
+.empty{color:var(--muted);font-size:14px;text-align:center;padding:16px 0 6px}
+
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;box-shadow:0 1px 2px rgba(15,30,46,.04)}
+.tabs button{border:0;background:none;border-radius:9px;padding:10px;font:600 14px Inter,sans-serif;color:var(--muted);cursor:pointer}
+.tabs button.on{background:var(--brand);color:#fff}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.kgrid .stat b{font-size:20px}
+.kgrid .stat.wide{grid-column:1/-1}
+.days{list-style:none;margin:8px 0 0;padding:0}
+.days>li{border-top:1px solid var(--line)}
+.days>li:first-child{border-top:0}
+.dayhead{width:100%;display:flex;align-items:center;gap:10px;background:none;border:0;padding:13px 0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.dayhead .dd{flex:1;min-width:0}
+.dayhead .dd b{display:block;font-size:14.5px}
+.dayhead .dd span{font-size:12.5px;color:var(--muted)}
+.dayhead .num{text-align:right;font-size:13px;font-variant-numeric:tabular-nums}
+.dayhead .num b{display:block;font-size:14px}
+.dayhead .chev{color:var(--muted);transition:transform .2s;font-size:12px}
+.days>li.open .chev{transform:rotate(90deg)}
+.daybody{padding:0 0 10px 12px;border-left:2px solid var(--line);margin:0 0 8px 4px}
+.daybody .list li:first-child{padding-top:4px}
+.pill.met{background:var(--ok-soft);color:var(--ok)}
+.pill.low{background:var(--warn-soft);color:var(--warn)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);background:var(--ink);color:#fff;padding:11px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;max-width:calc(100% - 32px);z-index:10;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.err{background:var(--bad)}
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.loading{display:grid;place-items:center;padding:40px 0;color:var(--muted);font-size:14px}
+.loading .spin{border-color:var(--line);border-top-color:var(--brand);width:22px;height:22px;margin-bottom:10px}
+footer{text-align:center;font-size:12px;color:var(--muted);padding:8px 16px 28px}
+.hidden{display:none!important}
+@media (max-width:380px){ .grid2{grid-template-columns:1fr} .stat{padding:9px 10px} }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <svg class="waves" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 30 C 150 0 300 60 450 30 S 750 0 900 30 S 1100 60 1200 30 V60 H0Z" fill="#fff"/>
+  </svg>
+  <div class="top-in">
+    <div class="logo" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+        <path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+      </svg>
+    </div>
+    <div class="brand"><b>Speech Ocean</b><span>Nigeria #1 · Work Portal</span></div>
+    <span class="demo hidden" id="demoTag">Demo</span>
+  </div>
+</header>
+
+<main>
+  <section class="card loading" id="vLoading"><div class="spin"></div>Loading…</section>
+
+  <!-- Sign in -->
+  <section class="card hidden" id="vLogin">
+    <h2>Sign in</h2>
+    <p class="sub">Use the ID and password given by your team lead.</p>
+    <form id="fLogin" autocomplete="on">
+      <label for="inId">ID</label>
+      <input id="inId" name="username" autocomplete="username" placeholder="Your ID" required autocapitalize="characters">
+      <label for="inPass">Password</label>
+      <div class="pw">
+        <input id="inPass" name="password" type="password" autocomplete="current-password" placeholder="Your password" required>
+        <button type="button" id="btnEye">Show</button>
+      </div>
+      <button class="btn" type="submit">Sign in</button>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <div class="stack hidden" id="vDash">
+    <section class="card">
+      <div class="profile">
+        <div class="avatar" id="avatar">–</div>
+        <div>
+          <h2 id="pName">—</h2>
+          <div class="chips"><span class="chip" id="pId"></span><span class="chip role hidden" id="pRole"></span></div>
+        </div>
+        <button class="link" id="btnOut" type="button">Sign out</button>
+      </div>
+    </section>
+
+    <div class="tabs" role="tablist">
+      <button type="button" class="on" data-tab="today">Today</button>
+      <button type="button" data-tab="all">All time</button>
+    </div>
+
+    <div class="stack" id="vToday">
+    <section class="card">
+      <div>
+        <div class="row"><span class="eyebrow">Today's progress</span><span class="eyebrow" id="today"></span></div>
+        <div class="big"><b id="items">0</b><span id="ofMin">/ 500 audio items minimum</span></div>
+        <div class="bar" id="bar"><i></i></div>
+        <p class="msg" id="msg"></p>
+      </div>
+      <div class="stats">
+        <div class="stat"><small>Tasks</small><b id="sTasks">0</b></div>
+        <div class="stat"><small>Valid (ms)</small><b id="sValid">0</b><em id="sValidI">0 items</em></div>
+        <div class="stat"><small>Invalid (ms)</small><b id="sInvalid">0</b><em id="sInvalidI">0 items</em></div>
+      </div>
+      <div class="pending-note hidden" id="pendNote"></div>
+    </section>
+
+    <!-- Result form: submit (task in progress) or edit (pending report) -->
+    <section class="card live hidden" id="cForm">
+      <div id="headLive">
+        <div class="row">
+          <span class="eyebrow"><span class="dot"></span>Task in progress</span>
+          <span><span class="chip" id="liveTask"></span><span class="tag hidden" id="liveRework">Rework</span></span>
+        </div>
+        <div class="timer" id="timer">00:00:00</div>
+        <p class="sub" id="liveSince">Started at —</p>
+        <div class="divider"></div>
+        <h2 style="margin-top:14px">Submit task result</h2>
+        <p class="sub">When you finish on the platform copy these values from the <b>Complete</b> tab.</p>
+      </div>
+      <div id="headEdit" class="hidden">
+        <span class="eyebrow" style="color:var(--warn)">Editing report</span>
+        <h2 style="margin-top:6px" id="editTitle">Task</h2>
+        <p class="sub">You can change this report until the admin verifies it.</p>
+      </div>
+
+      <form id="fResult" novalidate>
+        <label for="inTaskId">Task ID</label>
+        <input id="inTaskId" autocapitalize="characters">
+        <div class="grid2">
+          <div><label for="inBatch">Batch</label><input id="inBatch" inputmode="numeric" placeholder="e.g. 946"></div>
+          <div><label for="inTaskName">Task Name</label><input id="inTaskName" placeholder="e.g. batch_04"></div>
+        </div>
+        <div class="group valid">
+          <h3><i style="background:var(--ok)"></i>Valid</h3>
+          <div class="grid2">
+            <div><label for="inVMs">Duration (ms)</label><input id="inVMs" type="number" inputmode="numeric" min="0" step="1" placeholder="156400"><div class="hint" id="hVMs"></div></div>
+            <div><label for="inVIt">Audio Items</label><input id="inVIt" type="number" inputmode="numeric" min="0" step="1" placeholder="42"></div>
+          </div>
+        </div>
+        <div class="group invalid">
+          <h3><i style="background:var(--bad)"></i>Invalid</h3>
+          <div class="grid2">
+            <div><label for="inIMs">Duration (ms)</label><input id="inIMs" type="number" inputmode="numeric" min="0" step="1" placeholder="28700"><div class="hint" id="hIMs"></div></div>
+            <div><label for="inIIt">Audio Items</label><input id="inIIt" type="number" inputmode="numeric" min="0" step="1" placeholder="8"></div>
+          </div>
+        </div>
+        <div class="total"><span>Total audio items</span><b id="tItems">0</b></div>
+        <label for="inNotes">Notes <span class="opt">(optional)</span></label>
+        <input id="inNotes" placeholder="Any issue with this task?">
+        <div id="btnsLive"><button class="btn green" type="submit">Submit Task</button></div>
+        <div id="btnsEdit" class="btnrow hidden">
+          <button class="btn ghost" type="button" id="btnCancelEdit">Cancel</button>
+          <button class="btn" type="submit">Save changes</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Start task -->
+    <section class="card hidden" id="cStart">
+      <h2 id="startTitle">Start a task</h2>
+      <p class="sub" id="startSub"></p>
+      <form id="fStart">
+        <div class="seg" role="tablist" aria-label="Task type">
+          <button type="button" class="on" data-type="New">New task</button>
+          <button type="button" data-type="Rework">Rework</button>
+        </div>
+        <p class="reworknote hidden" id="reworkNote">Use Rework when a submitted task came back from the platform for correction.</p>
+        <label for="inTask">Task ID</label>
+        <input id="inTask" placeholder="Task ID from the platform" autocapitalize="characters">
+        <button class="btn" type="submit" id="btnStart">Start Task</button>
+      </form>
+
+      <div class="nodata" id="noDataBox">
+        <p class="sub" style="margin-bottom:10px">No task available on the platform right now?</p>
+        <button class="btn ghost" type="button" id="btnNoData">No data in the pool</button>
+        <div id="noDataForm" class="hidden">
+          <label for="inNoDataNote">Note <span class="opt">(optional)</span></label>
+          <input id="inNoDataNote" placeholder="e.g. Checked the pool at 10 AM and 2 PM">
+          <div class="btnrow">
+            <button class="btn ghost" type="button" id="btnNoDataCancel">Cancel</button>
+            <button class="btn slate" type="button" id="btnNoDataSend">Submit daily activity</button>
+          </div>
+        </div>
+      </div>
+      <div class="nodata-info hidden" id="noDataInfo"></div>
+    </section>
+
+    <!-- Today's reports -->
+    <section class="card">
+      <div class="row">
+        <h2>Today's reports</h2>
+        <button class="link" id="btnRefresh" type="button">Refresh</button>
+      </div>
+      <ul class="list" id="list"></ul>
+    </section>
+    </div>
+
+    <!-- All time -->
+    <div class="stack hidden" id="vAll">
+      <section class="card">
+        <div class="row"><span class="eyebrow">All time summary</span><button class="link" id="btnRefreshAll" type="button">Refresh</button></div>
+        <div class="kgrid">
+          <div class="stat"><small>Tasks submitted</small><b id="aTasks">0</b><em id="aRework"></em></div>
+          <div class="stat"><small>Audio items</small><b id="aItems">0</b></div>
+          <div class="stat"><small>Valid (ms)</small><b id="aValid">0</b><em id="aValidI"></em></div>
+          <div class="stat"><small>Invalid (ms)</small><b id="aInvalid">0</b><em id="aInvalidI"></em></div>
+          <div class="stat"><small>Days worked</small><b id="aDays">0</b></div>
+          <div class="stat"><small>Days target met</small><b id="aMet">0</b></div>
+          <div class="stat"><small>Verified</small><b id="aVer" style="color:var(--ok)">0</b><em>reports</em></div>
+          <div class="stat"><small>Pending review</small><b id="aPend" style="color:var(--warn)">0</b><em>reports</em></div>
+        </div>
+      </section>
+      <section class="card">
+        <h2>Daily history</h2>
+        <p class="sub">Tap a day to see its reports.</p>
+        <ul class="days" id="days"></ul>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>Speech Ocean · Nigeria #1 — reports become final after admin verification.</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ====== CONFIG ====== */
+const SCRIPT_URL = 'PASTE_YOUR_NIGERIA_APPS_SCRIPT_WEB_APP_URL_HERE';
+/* ==================== */
+
+const DEMO = !/^https:\/\/script\.google\.com\//.test(SCRIPT_URL) || new URLSearchParams(location.search).has('demo');
+const KEY = 'so_ng1_session_v1';
+const $ = id => document.getElementById(id);
+let state = null, session = null, tick = null, editId = null, startType = 'New';
+let hist = null, tab = 'today', openDay = null, editFrom = 'today';
+
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
+
+/* ---------- API ---------- */
+async function api(action, data){
+  if (DEMO) return demo(action, data);
+  const q = new URLSearchParams(Object.assign({ action }, data, { _: Date.now() }));
+  let r;
+  try { r = await fetch(SCRIPT_URL + '?' + q.toString(), { redirect: 'follow' }); }
+  catch (e) { throw new Error('Cannot reach the server. Check your internet and try again.'); }
+  const text = await r.text();
+  try { return JSON.parse(text); }
+  catch (e) { throw new Error('Server is not set up correctly. Please contact your team lead.'); }
+}
+async function call(action, data){
+  const s = await api(action, Object.assign({ memberId: session.memberId, token: session.token }, data));
+  if (!s.ok){ if (s.code === 'AUTH') signOut(); throw new Error(s.error); }
+  return s;
+}
+
+/* ---------- helpers ---------- */
+function show(v){ ['vLoading','vLogin','vDash'].forEach(x => $(x).classList.toggle('hidden', x !== v)); }
+function toast(text, err){
+  const t = $('toast'); t.textContent = text; t.className = 'toast show' + (err ? ' err' : '');
+  clearTimeout(t._h); t._h = setTimeout(() => t.className = 'toast', 3400);
+}
+async function withBusy(btn, fn){
+  if (!btn._label) btn._label = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span>Please wait';
+  try { await fn(); } catch(err){ toast(err.message || 'Something went wrong.', true); }
+  btn.disabled = false; btn.innerHTML = btn._label;
+}
+const n = v => Number(v || 0).toLocaleString('en-US');
+const fmtTime = iso => iso ? new Date(iso).toLocaleTimeString([], { hour:'numeric', minute:'2-digit' }) : '—';
+const pad = x => String(x).padStart(2,'0');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function msHint(ms){
+  ms = Number(ms); if (!ms || ms < 0) return '';
+  const s = Math.round(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+  return '≈ ' + (h ? h + 'h ' : '') + m + 'm ' + sec + 's';
+}
+const roleName = r => r === 'TR' ? 'Transcriber · TR' : r === 'QA' ? 'Quality Assurance · QA' : r;
+const findTask = id => (state && state.tasks.find(t => t.logId === id)) || (hist && hist.tasks.find(t => t.logId === id));
+const fmtDay = k => new Date(k + 'T12:00:00').toLocaleDateString([], { weekday:'short', day:'numeric', month:'short', year:'numeric' });
+
+/* ---------- render ---------- */
+function render(s){
+  state = s;
+  const min = s.min || 500;
+  const subm = s.tasks.filter(t => t.status === 'Submitted');
+  const sum = k => subm.reduce((a,t) => a + (t[k] || 0), 0);
+  const items = sum('totalItems'), met = items >= min;
+  const pending = subm.filter(t => !t.verified).length;
+  const noData = s.tasks.find(t => t.status === 'No Data');
+
+  $('avatar').textContent = (s.name || '?').trim().split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+  $('pName').textContent = s.name;
+  $('pId').textContent = 'ID ' + s.memberId;
+  $('pRole').textContent = roleName(s.role || '');
+  $('pRole').classList.toggle('hidden', !s.role);
+  $('today').textContent = new Date().toLocaleDateString([], { day:'numeric', month:'short' });
+
+  $('items').textContent = n(items);
+  const per = s.perTask || 50, minT = Math.round(min / per);
+  $('ofMin').textContent = '/ ' + n(min) + ' audios minimum (' + minT + ' tasks)';
+  $('bar').classList.toggle('done', met);
+  $('bar').firstElementChild.style.width = Math.min(100, items / min * 100) + '%';
+  const msg = $('msg'); msg.className = 'msg' + (met ? ' done' : '');
+  msg.textContent = met
+    ? (items > min ? 'Daily minimum reached · +' + n(items - min) + ' extra items. Great work!' : 'Daily minimum reached. You can take more tasks if you want.')
+    : (noData && !subm.length ? 'You reported no data in the pool today.' : n(min - items) + ' audios left (about ' + Math.ceil((min - items) / per) + ' more task' + (Math.ceil((min - items) / per) === 1 ? '' : 's') + ') to reach today\'s minimum.');
+  $('sTasks').textContent = subm.length;
+  $('sValid').textContent = n(sum('validMs'));  $('sValidI').textContent = n(sum('validItems')) + ' items';
+  $('sInvalid').textContent = n(sum('invalidMs')); $('sInvalidI').textContent = n(sum('invalidItems')) + ' items';
+  $('pendNote').textContent = pending + (pending === 1 ? ' report is' : ' reports are') + ' waiting for admin verification. You can still edit or delete ' + (pending === 1 ? 'it.' : 'them.');
+  $('pendNote').classList.toggle('hidden', !pending);
+
+  // which card?
+  const editing = editId && findTask(editId);
+  if (editId && (!editing || editing.verified || editing.status !== 'Submitted')) editId = null;
+  clearInterval(tick);
+  const form = $('fResult');
+  if (editId){
+    const t = findTask(editId);
+    $('cForm').classList.remove('hidden'); $('cForm').classList.add('edit'); $('cStart').classList.add('hidden');
+    $('headLive').classList.add('hidden'); $('headEdit').classList.remove('hidden');
+    $('btnsLive').classList.add('hidden'); $('btnsEdit').classList.remove('hidden');
+    $('editTitle').textContent = 'Task ' + t.taskId + (t.type === 'Rework' ? ' · Rework' : '') + (t.day && t.day !== s.date ? ' · ' + fmtDay(t.day) : '');
+    if (form.dataset.log !== t.logId){
+      form.dataset.log = t.logId;
+      $('inTaskId').value = t.taskId; $('inBatch').value = t.batch; $('inTaskName').value = t.taskName;
+      $('inVMs').value = t.validMs; $('inVIt').value = t.validItems; $('inIMs').value = t.invalidMs; $('inIIt').value = t.invalidItems;
+      $('inNotes').value = t.notes; updateHints();
+    }
+  } else if (s.open){
+    $('cForm').classList.remove('hidden', 'edit'); $('cStart').classList.add('hidden');
+    $('headLive').classList.remove('hidden'); $('headEdit').classList.add('hidden');
+    $('btnsLive').classList.remove('hidden'); $('btnsEdit').classList.add('hidden');
+    $('liveTask').textContent = s.open.taskId;
+    $('liveRework').classList.toggle('hidden', s.open.type !== 'Rework');
+    $('liveSince').textContent = 'Started at ' + fmtTime(s.open.start);
+    if (form.dataset.log !== s.open.logId){ form.reset(); form.dataset.log = s.open.logId; $('inTaskId').value = s.open.taskId; updateHints(); }
+    const t0 = new Date(s.open.start).getTime();
+    const upd = () => { const d = Math.max(0, Math.floor((Date.now() - t0) / 1000));
+      $('timer').textContent = pad(Math.floor(d/3600)) + ':' + pad(Math.floor(d%3600/60)) + ':' + pad(d%60); };
+    upd(); tick = setInterval(upd, 1000);
+  } else {
+    form.dataset.log = '';
+    $('cForm').classList.add('hidden'); $('cStart').classList.remove('hidden');
+    $('startTitle').textContent = met ? 'Take another task' : (subm.length ? 'Start your next task' : 'Start a task');
+    $('startSub').textContent = met
+      ? 'You have reached today\'s minimum. Extra tasks are welcome.'
+      : 'One task has ' + per + ' audios. Complete at least ' + minT + ' tasks (' + n(min) + ' audios) today. You can take more if you like.';
+    $('noDataBox').classList.toggle('hidden', !!noData);
+    $('noDataInfo').classList.toggle('hidden', !noData);
+    if (noData) $('noDataInfo').innerHTML = '<span>ⓘ</span><span>You reported <b>no data in the pool</b> at ' + fmtTime(noData.start) + '. If tasks appear later you can still start one.</span>';
+  }
+
+  // list
+  const ul = $('list');
+  if (!s.tasks.length){ ul.innerHTML = '<li class="empty">No reports yet today.</li>'; }
+  else ul.innerHTML = s.tasks.slice().reverse().map(itemHtml).join('');
+  show('vDash');
+}
+
+function itemHtml(t){
+  const rework = t.type === 'Rework' ? '<span class="tag">Rework</span>' : '';
+  let pill, body = '', acts = '';
+  if (t.status === 'No Data'){
+    pill = t.verified ? '<span class="pill ver">Verified</span>' : '<span class="pill nod">No data</span>';
+    return '<li><div class="lt"><div><b>No data in the pool</b><span class="meta">Reported at ' + fmtTime(t.start) + (t.notes && t.notes !== 'No data in the pool' ? ' · ' + esc(t.notes) : '') + '</span></div>' + pill + '</div>' +
+      (t.verified ? '<div class="locked">✓ Verified by admin</div>' : '<div class="acts"><button class="del" data-del="' + esc(t.logId) + '">Delete</button></div>') + '</li>';
+  }
+  if (t.status === 'In Progress'){
+    pill = '<span class="pill prog">In Progress</span>';
+    acts = '<div class="acts"><button class="del" data-del="' + esc(t.logId) + '">Delete task</button></div>';
+  } else {
+    pill = t.verified ? '<span class="pill ver">Verified</span>' : '<span class="pill pend">Pending review</span>';
+    body = '<div class="lm"><div>Valid<b>' + n(t.validMs) + ' ms</b>' + n(t.validItems) + ' items</div>' +
+      '<div>Invalid<b>' + n(t.invalidMs) + ' ms</b>' + n(t.invalidItems) + ' items</div>' +
+      '<div>Total<b>' + n(t.totalItems) + '</b>items</div></div>';
+    acts = t.verified ? '<div class="locked">✓ Verified by admin · locked</div>'
+      : '<div class="acts"><button data-edit="' + esc(t.logId) + '">Edit</button><button class="del" data-del="' + esc(t.logId) + '">Delete</button></div>';
+  }
+  const meta = [t.batch && 'Batch ' + esc(t.batch), esc(t.taskName)].filter(Boolean).join(' · ');
+  return '<li><div class="lt"><div><b>Task ' + esc(t.taskId) + '</b>' + rework + '<span class="meta">' + (meta ? meta + ' · ' : '') +
+    fmtTime(t.start) + ' – ' + (t.end ? fmtTime(t.end) : 'now') + '</span></div>' + pill + '</div>' + body + acts + '</li>';
+}
+
+/* ---------- All time ---------- */
+function setTab(t){
+  tab = t;
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+  $('vToday').classList.toggle('hidden', t !== 'today');
+  $('vAll').classList.toggle('hidden', t !== 'all');
+  if (t === 'all') loadHistory();
+}
+async function loadHistory(withToast){
+  if (!hist) $('days').innerHTML = '<li class="empty">Loading…</li>';
+  try { hist = await call('history', {}); renderHistory(); if (withToast) toast('Updated'); }
+  catch(e){ toast(e.message, true); }
+}
+function renderHistory(){
+  const min = hist.min || 500;
+  const subm = hist.tasks.filter(t => t.status === 'Submitted');
+  const sum = (arr, k) => arr.reduce((a,t) => a + (t[k] || 0), 0);
+  const byDay = {};
+  hist.tasks.forEach(t => (byDay[t.day] = byDay[t.day] || []).push(t));
+  const keys = Object.keys(byDay).sort().reverse();
+  const dayItems = k => sum(byDay[k].filter(t => t.status === 'Submitted'), 'totalItems');
+  const worked = keys.filter(k => byDay[k].some(t => t.status === 'Submitted'));
+
+  $('aTasks').textContent = n(subm.length);
+  const rw = subm.filter(t => t.type === 'Rework').length;
+  $('aRework').textContent = rw ? rw + ' rework' : '';
+  $('aItems').textContent = n(sum(subm, 'totalItems'));
+  $('aValid').textContent = n(sum(subm, 'validMs'));   $('aValidI').textContent = n(sum(subm, 'validItems')) + ' items';
+  $('aInvalid').textContent = n(sum(subm, 'invalidMs')); $('aInvalidI').textContent = n(sum(subm, 'invalidItems')) + ' items';
+  $('aDays').textContent = worked.length;
+  $('aMet').textContent = worked.filter(k => dayItems(k) >= min).length;
+  $('aVer').textContent = subm.filter(t => t.verified).length;
+  $('aPend').textContent = subm.filter(t => !t.verified).length;
+
+  if (!keys.length){ $('days').innerHTML = '<li class="empty">No reports yet.</li>'; return; }
+  $('days').innerHTML = keys.map(k => {
+    const list = byDay[k], ds = list.filter(t => t.status === 'Submitted'), items = dayItems(k);
+    const nod = list.some(t => t.status === 'No Data');
+    const pill = ds.length ? (items >= min ? '<span class="pill met">Target met</span>' : '<span class="pill low">Below target</span>') : (nod ? '<span class="pill nod">No data</span>' : '');
+    const isOpen = openDay === k;
+    return '<li class="' + (isOpen ? 'open' : '') + '"><button class="dayhead" data-day="' + k + '">' +
+      '<div class="dd"><b>' + (k === hist.today ? 'Today · ' : '') + fmtDay(k) + '</b><span>' + ds.length + ' task' + (ds.length === 1 ? '' : 's') + ' · ' + pill + '</span></div>' +
+      '<div class="num"><b>' + n(items) + '</b>items</div><span class="chev">▶</span></button>' +
+      (isOpen ? '<div class="daybody"><ul class="list">' + list.slice().reverse().map(itemHtml).join('') + '</ul></div>' : '') + '</li>';
+  }).join('');
+}
+document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+$('btnRefreshAll').addEventListener('click', () => loadHistory(true));
+$('days').addEventListener('click', e => {
+  const h = e.target.closest('.dayhead');
+  if (h){ openDay = openDay === h.dataset.day ? null : h.dataset.day; renderHistory(); return; }
+  listAction(e);
+});
+
+function updateHints(){
+  $('hVMs').textContent = msHint($('inVMs').value);
+  $('hIMs').textContent = msHint($('inIMs').value);
+  $('tItems').textContent = n((Number($('inVIt').value) || 0) + (Number($('inIIt').value) || 0));
+}
+['inVMs','inIMs','inVIt','inIIt'].forEach(id => $(id).addEventListener('input', updateHints));
+
+/* ---------- actions ---------- */
+function signOut(){ store.del(KEY); session = null; state = null; editId = null; hist = null; openDay = null; setTab('today'); clearInterval(tick); $('fLogin').reset(); show('vLogin'); }
+
+async function load(withToast){
+  session = store.get(KEY);
+  if (!session){ show('vLogin'); return; }
+  try { render(await call('status', {})); if (withToast) toast('Updated'); }
+  catch(e){ if (!state && session) show('vLogin'); toast(e.message, true); }
+}
+
+$('btnEye').addEventListener('click', () => {
+  const p = $('inPass'), on = p.type === 'password';
+  p.type = on ? 'text' : 'password'; $('btnEye').textContent = on ? 'Hide' : 'Show';
+});
+
+$('fLogin').addEventListener('submit', e => {
+  e.preventDefault();
+  withBusy(e.target.querySelector('[type=submit]'), async () => {
+    const memberId = $('inId').value.trim().toUpperCase();
+    const s = await api('login', { memberId, password: $('inPass').value.trim() });
+    if (!s.ok) throw new Error(s.error);
+    session = { memberId, token: s.token }; store.set(KEY, session);
+    render(s); toast('Welcome, ' + String(s.name).split(' ')[0]);
+  });
+});
+
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+  startType = b.dataset.type;
+  document.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', x === b));
+  $('reworkNote').classList.toggle('hidden', startType !== 'Rework');
+  $('btnStart')._label = startType === 'Rework' ? 'Start Rework' : 'Start Task';
+  if (!$('btnStart').disabled) $('btnStart').innerHTML = $('btnStart')._label;
+}));
+
+$('fStart').addEventListener('submit', e => {
+  e.preventDefault();
+  const taskId = $('inTask').value.trim().toUpperCase();
+  if (!taskId){ toast('Please enter the Task ID.', true); $('inTask').focus(); return; }
+  withBusy($('btnStart'), async () => {
+    const s = await call('start', { taskId, type: startType });
+    const was = startType;
+    $('inTask').value = ''; document.querySelector('.seg [data-type=New]').click();
+    render(s); toast(was === 'Rework' ? 'Rework started.' : 'Task started. Good luck!');
+  });
+});
+
+function readForm(){
+  const v = id => $(id).value.trim();
+  const need = [['inTaskId','Task ID'],['inBatch','Batch'],['inTaskName','Task Name'],['inVMs','Valid duration'],['inVIt','Valid items'],['inIMs','Invalid duration'],['inIIt','Invalid items']];
+  const miss = need.find(([id]) => v(id) === '');
+  if (miss){ toast('Please fill in ' + miss[1] + '. Enter 0 if there is none.', true); $(miss[0]).focus(); return null; }
+  const nums = ['inVMs','inVIt','inIMs','inIIt'].map(id => Number(v(id)));
+  if (nums.some(x => !Number.isInteger(x) || x < 0)){ toast('Durations and items must be whole numbers.', true); return null; }
+  const perT = (state && state.perTask) || 50;
+  if (nums[1] + nums[3] > perT){ toast('One task has ' + perT + ' audios. Valid + invalid items cannot be more than ' + perT + '.', true); return null; }
+  return { taskId: v('inTaskId').toUpperCase(), batch: v('inBatch'), taskName: v('inTaskName'),
+    validMs: nums[0], validItems: nums[1], invalidMs: nums[2], invalidItems: nums[3], notes: v('inNotes') };
+}
+
+$('fResult').addEventListener('submit', e => {
+  e.preventDefault();
+  const d = readForm(); if (!d) return;
+  const isEdit = !!editId;
+  if (!confirm((isEdit ? 'Save changes to ' : 'Submit ') + 'Task ' + d.taskId + '?\n\nValid: ' + n(d.validMs) + ' ms / ' + n(d.validItems) + ' items\nInvalid: ' + n(d.invalidMs) + ' ms / ' + n(d.invalidItems) + ' items\nTotal: ' + n(d.validItems + d.invalidItems) + ' items\n\nPlease double-check with the platform.')) return;
+  const btn = e.submitter || e.target.querySelector(isEdit ? '#btnsEdit [type=submit]' : '#btnsLive [type=submit]');
+  withBusy(btn, async () => {
+    const s = await call(isEdit ? 'update' : 'finish', Object.assign({ logId: isEdit ? editId : state.open.logId }, d));
+    editId = null; $('fResult').dataset.log = ''; hist = null; render(s); toast(isEdit ? 'Report updated.' : 'Task submitted! Waiting for admin verification.');
+  });
+});
+
+$('btnCancelEdit').addEventListener('click', () => { editId = null; $('fResult').dataset.log = ''; render(state); });
+$('btnCancelEdit').addEventListener('click', () => { if (editFrom === 'all') setTab('all'); });
+
+$('list').addEventListener('click', listAction);
+function listAction(e){
+  const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-del]');
+  if (ed){
+    if (state.open){ toast('Submit or delete your task in progress before editing another report.', true); return; }
+    editId = ed.dataset.edit; editFrom = tab; if (tab !== 'today') setTab('today');
+    render(state); $('cForm').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  if (del){
+    const t = findTask(del.dataset.del);
+    const what = t.status === 'In Progress' ? 'this task in progress' : t.status === 'No Data' ? 'this "no data" report' : 'the report for Task ' + t.taskId;
+    if (!confirm('Delete ' + what + '?\nThis cannot be undone.')) return;
+    withBusy(del, async () => {
+      const s = await call('remove', { logId: t.logId });
+      if (editId === t.logId) editId = null;
+      render(s); toast('Deleted.');
+      if (hist){ hist.tasks = hist.tasks.filter(x => x.logId !== t.logId); if (tab === 'all') renderHistory(); }
+    });
+  }
+}
+
+$('btnNoData').addEventListener('click', () => { $('btnNoData').classList.add('hidden'); $('noDataForm').classList.remove('hidden'); $('inNoDataNote').focus(); });
+$('btnNoDataCancel').addEventListener('click', () => { $('noDataForm').classList.add('hidden'); $('btnNoData').classList.remove('hidden'); });
+$('btnNoDataSend').addEventListener('click', e => {
+  withBusy(e.currentTarget, async () => {
+    const s = await call('nodata', { notes: $('inNoDataNote').value.trim() });
+    $('inNoDataNote').value = ''; $('noDataForm').classList.add('hidden'); $('btnNoData').classList.remove('hidden');
+    render(s); toast('Daily activity submitted.');
+  });
+});
+
+$('btnOut').addEventListener('click', () => {
+  if (state && state.open && !confirm('You have a task in progress. Sign out anyway? The timer keeps running.')) return;
+  signOut();
+});
+$('btnRefresh').addEventListener('click', () => load(true));
+document.addEventListener('visibilitychange', () => { if (!document.hidden && session && !editId) load(); });
+
+/* ---------- demo mode (add ?demo to the URL) ---------- */
+function demo(action, d){
+  const db = store.get('so_ng1_demo_db_v1') || { log:[] };
+  const save = () => store.set('so_ng1_demo_db_v1', db);
+  const day = new Date().toDateString();
+  const status = id => {
+    const mine = db.log.filter(r => r.memberId === id);
+    return { ok:true, memberId:id, name:'Demo Member', role:'TR', min:500, perTask:50,
+      tasks: mine.filter(r => r.day === day), open: mine.find(r => r.status === 'In Progress') || null };
+  };
+  const fill = (r, d) => Object.assign(r, { taskId:d.taskId, batch:d.batch, taskName:d.taskName, notes:d.notes,
+    validMs:+d.validMs, validItems:+d.validItems, invalidMs:+d.invalidMs, invalidItems:+d.invalidItems,
+    totalItems:+d.validItems + +d.invalidItems, status:'Submitted', verified:false });
+  return new Promise(res => setTimeout(() => {
+    const id = d.memberId, err = m => res({ ok:false, error:m });
+    if (action === 'login') return res(Object.assign(status(id), { token:'demo' }));
+    if (action === 'status') return res(status(id));
+    if (action === 'history'){
+      const seed = [
+        { logId:'H1', day:'2026-10-13', type:'New', taskId:'274640', batch:'943', taskName:'batch_01', start:'2026-10-13T04:00:00Z', end:'2026-10-13T09:00:00Z', validMs:510980, validItems:41, invalidMs:5919, invalidItems:2, totalItems:43, status:'Submitted', verified:true },
+        { logId:'H2', day:'2026-10-14', type:'New', taskId:'274767', batch:'945', taskName:'batch_03', start:'2026-10-14T04:00:00Z', end:'2026-10-14T10:00:00Z', validMs:1116952, validItems:45, invalidMs:52466, invalidItems:5, totalItems:50, status:'Submitted', verified:true },
+        { logId:'H3', day:'2026-10-14', type:'Rework', taskId:'274640', batch:'943', taskName:'batch_01', start:'2026-10-14T11:00:00Z', end:'2026-10-14T12:00:00Z', validMs:300000, validItems:40, invalidMs:0, invalidItems:0, totalItems:40, status:'Submitted', verified:false }
+      ];
+      const today = new Date().toISOString().slice(0,10);
+      const mine = db.log.filter(r => r.memberId === id && r.status !== 'In Progress').map(r => Object.assign({}, r, { day: today }));
+      return res({ ok:true, today, min:500, perTask:50, tasks: seed.concat(mine).reverse() });
+    }
+    if (action === 'start'){
+      if (db.log.some(r => r.memberId === id && r.status === 'In Progress')) return err('You already have a task in progress. Submit or delete it first.');
+      db.log.push({ logId:'L'+Date.now(), day, memberId:id, type:d.type, taskId:d.taskId, start:new Date().toISOString(), status:'In Progress' });
+      save(); return res(status(id));
+    }
+    const r = db.log.find(x => x.logId === d.logId);
+    if (action === 'finish'){ fill(r, d); r.end = new Date().toISOString(); save(); return res(status(id)); }
+    if (action === 'update'){ fill(r, d); save(); return res(status(id)); }
+    if (action === 'remove'){ db.log = db.log.filter(x => x.logId !== d.logId); save(); return res(status(id)); }
+    if (action === 'nodata'){
+      db.log.push({ logId:'L'+Date.now(), day, memberId:id, type:'No Data', start:new Date().toISOString(), end:new Date().toISOString(), status:'No Data', notes:d.notes, verified:false });
+      save(); return res(status(id));
+    }
+  }, 300));
+}
+
+if (DEMO) $('demoTag').classList.remove('hidden');
+load();
+</script>
+</body>
+</html>
